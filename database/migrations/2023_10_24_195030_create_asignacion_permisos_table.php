@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('Rolid');
             $table->unsignedBigInteger('Privid');
-            $table->boolean('Permitido');
+            $table->boolean('Permitido')->nullable();
 
             $table->foreign('Rolid')->references('id')->on('roles');
             $table->foreign('Privid')->references('id')->on('privilegios');
