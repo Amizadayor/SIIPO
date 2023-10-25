@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name', 30);
             $table->string('curp', 18)->unique();
             $table->string('email', 30)->nullable();
-            $table->string('password');
+            $table->string('password', 20)->nullable();
             $table->unsignedBigInteger('Rolid');
 
             $table->foreign('Rolid')->references('id')->on('roles');
