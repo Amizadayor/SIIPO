@@ -15,6 +15,7 @@ class DetallePA extends Model
         'IniOperaciones',
         'ActvPesqueraAcuacultura',
         'ActvPesqueraCaptura',
+        'CantidadPescadores',
         'ActivoEmbMayor',
         'ActivoEmbMenor',
         'DocActaNacimiento',
