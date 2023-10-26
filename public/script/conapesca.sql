@@ -341,7 +341,7 @@ CREATE TABLE equipos_salvamento_emb_ma (
     FOREIGN KEY (DGEMMAid) REFERENCES datosgenerales_emb_ma(id),
     FOREIGN KEY (EqpoSalvamentoid) REFERENCES equipos_salvamento(id)
 );
-CREATE TABLE equipos_contraindencio_emb_mas (
+CREATE TABLE equipos_contraindencio_emb_ma (
     id INT PRIMARY KEY NOT NULL,
     EqpoContraIncendioid INT NOT NULL,
     DGEMMAid INT NOT NULL,
@@ -426,7 +426,7 @@ CREATE TABLE artes_equipo_pesca_por_emb_ma (
     FOREIGN KEY (ArteEquipoPescaEmbMaid) REFERENCES artes_equipo_pesca_emb_ma(id)
 );
 
-CREATE TABLE costos_operacion_emb_ma (
+CREATE TABLE costos_operaciones_emb_ma (
     id INT PRIMARY KEY NOT NULL,
     Combustible DECIMAL(10, 2) DEFAULT 0.00,
     Lubricantes DECIMAL(10, 2) DEFAULT 0.00,
