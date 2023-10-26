@@ -4,6 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\DetallePA;
+use App\Models\DatosGeneralesPA;
+use App\Models\PermisoPesca;
 
 class PermisoPescaPA extends Model
 {
