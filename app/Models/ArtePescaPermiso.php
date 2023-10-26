@@ -10,7 +10,7 @@ use App\Models\PermisoPescaPA;
 class ArtePescaPermiso extends Model
 {
     use HasFactory;
-    protected $table = 'arte_pesca_permisos';
+    protected $table = 'artes_pesca_permisos';
     protected $primaryKey = 'id';
     protected $fillable = [
         'TPArtPescaid',
