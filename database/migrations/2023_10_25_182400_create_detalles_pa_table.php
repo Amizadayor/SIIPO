@@ -13,6 +13,7 @@ return new class extends Migration
             $table->date('IniOperaciones');
             $table->boolean('ActvPesqueraAcuacultura');
             $table->boolean('ActvPesqueraCaptura');
+            $table->integer('CantidadPescadores')->nullable();
             $table->boolean('ActivoEmbMayor');
             $table->boolean('ActivoEmbMenor');
             $table->binary('DocActaNacimiento');
