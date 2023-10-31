@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\RolController;
 use App\Http\Controllers\PrivilegioController;
+use App\Http\Controllers\AsignacionPermisoController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
@@ -24,3 +25,4 @@ use Illuminate\Http\Request;
 
 Route::apiResource('roles', RolController::class);
 Route::apiResource('privilegios', PrivilegioController::class);
+Route::apiResource('asignacion_permisos', AsignacionPermisoController::class);
