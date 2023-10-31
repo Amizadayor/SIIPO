@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\RolController;
+use App\Http\Controllers\PrivilegioController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
@@ -19,4 +20,7 @@ use Illuminate\Http\Request;
     //return $request->user();
 //});
 
+//Ruta: http://siipo.test/api/nombre_ruta
+
 Route::apiResource('roles', RolController::class);
+Route::apiResource('privilegios', PrivilegioController::class);
