@@ -3,47 +3,88 @@
 namespace App\Http\Controllers;
 
 use App\Models\Privilegio;
+use App\Http\Responses\ApiResponse;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Validation\ValidationException;
+use Exception;
 
 class PrivilegioController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Función que obtiene la lista de los privilegios.
      */
     public function index()
     {
-        //
+        try {
+            $privilegios = Privilegio::all();
+            return ApiResponse::success('Lista de los permisos', 200, $privilegios);
+        } catch (Exception $e) {
+            return ApiResponse::error('Error al obtener la lista de permisos: ' . $e->getMessage(), 500);
+        }
     }
 
     /**
-     * Store a newly created resource in storage.
+     * función que crea un nuevo privilegio.S
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $request->validate([
+                'NombrePermiso' => 'required|string|unique:privilegios',
+            ]);
+            $privilegio = Privilegio::create($request->all());
+            return ApiResponse::success('Permiso creado exitosamente', 201, $privilegio);
+        } catch (ValidationException $e) {
+            return ApiResponse::error('Error de validacion: ' . $e->getMessage(), 422);
+        }
     }
 
     /**
-     * Display the specified resource.
+     * Función que obtiene un privilegio por su id.
      */
-    public function show(Privilegio $privilegio)
+    public function show($id)
     {
-        //
+        try {
+            $privilegio = Privilegio::findOrFail($id);
+            return ApiResponse::success('Permiso obtenido exitosamente', 200, $privilegio);
+        } catch (ModelNotFoundException $e) {
+            return ApiResponse::error('Permiso no encontrado', 404);
+        }
     }
 
     /**
-     * Update the specified resource in storage.
+     * Función que actualiza un privilegio por su id.
      */
-    public function update(Request $request, Privilegio $privilegio)
+    public function update(Request $request, $id)
     {
-        //
+        try {
+            $request->validate([
+                'NombrePermiso' => 'required|string|unique:privilegios',
+            ]);
+            $privilegio = Privilegio::findOrFail($id);
+            $privilegio->update($request->all());
+            return ApiResponse::success('Permiso actualizado exitosamente', 200, $privilegio);
+        } catch (ModelNotFoundException $e) {
+            return ApiResponse::error('Permiso no encontrado', 404);
+        } catch (ValidationException $e) {
+            return ApiResponse::error('Error de validacion: ' . $e->getMessage(), 422);
+        }
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Función que elimina un privilegio por su id.
      */
-    public function destroy(Privilegio $privilegio)
+    public function destroy($id)
     {
-        //
+        try {
+            $privilegio = Privilegio::findOrFail($id);
+            $privilegio->delete();
+            return ApiResponse::success('Permiso eliminado exitosamente', 200, $privilegio);
+        } catch (ModelNotFoundException $e) {
+            return ApiResponse::error('Permiso no encontrado', 404);
+        } catch (Exception $e) {
+            return ApiResponse::error('Error: ' . $e->getMessage(), 422);
+        }
     }
 }
