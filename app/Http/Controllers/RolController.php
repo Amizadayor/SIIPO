@@ -33,6 +33,12 @@ class RolController extends Controller
             $request->validate([
                 'NombreRol' => 'required|unique:roles',
             ]);
+
+            $totalRoles = Rol::count();
+            if ($totalRoles >= 3) {
+                return ApiResponse::error('No puedes crear más de 3 roles', 422);
+            }
+
             $rol = Rol::create($request->all());
         return ApiResponse::success('Rol creado exitosamente', 201, $rol);
         } catch (ValidationException $e) {
@@ -59,16 +65,20 @@ class RolController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            $rol = Rol::findOrFail($id);
             $request->validate([
                 'NombreRol' => 'required|unique:roles,NombreRol,' . $id
             ]);
+
+            $rol = Rol::findOrFail($id);
             $rol->update($request->all());
-        return ApiResponse::success('Rol actualizado exitosamente', 200, $rol);
+
+            return ApiResponse::success('Rol actualizado exitosamente', 200, $rol);
         } catch (ModelNotFoundException $e) {
             return ApiResponse::error('Rol no encontrado', 404);
+        } catch (ValidationException $e) {
+            return ApiResponse::error('El Rol ya existe: ' . $e->getMessage(), 422);
         } catch (Exception $e) {
-            return ApiResponse::error('Error: ' . $e->getMessage(), 422);
+            return ApiResponse::error('Error: ' . $e->getMessage(), 500);
         }
     }
 
