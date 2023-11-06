@@ -9,6 +9,7 @@ use App\Http\Controllers\DistritoController;
 use App\Http\Controllers\MunicipioController;
 use App\Http\Controllers\LocalidadController;
 use App\Http\Controllers\OficinaController;
+use App\Http\Controllers\UnidadEconomicaPAController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
@@ -38,3 +39,4 @@ Route::apiResource('distritos', DistritoController::class);
 Route::apiResource('municipios', MunicipioController::class);
 Route::apiResource('localidades', LocalidadController::class);
 Route::apiResource('oficinas', OficinaController::class);
+Route::apiResource('unidadeconomica_pa', UnidadEconomicaPAController::class);
