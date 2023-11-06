@@ -6,6 +6,7 @@ use App\Http\Controllers\AsignacionPermisoController;
 use App\Http\Controllers\ArtePescaController;
 use App\Http\Controllers\RegionController;
 use App\Http\Controllers\DistritoController;
+use App\Http\Controllers\MunicipioController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
@@ -32,3 +33,4 @@ Route::apiResource('asignacion_permisos', AsignacionPermisoController::class);
 Route::apiResource('artes_pesca', ArtePescaController::class);
 Route::apiResource('regiones', RegionController::class);
 Route::apiResource('distritos', DistritoController::class);
+Route::apiResource('municipios', MunicipioController::class);
