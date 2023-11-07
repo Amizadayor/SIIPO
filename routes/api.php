@@ -12,6 +12,7 @@ use App\Http\Controllers\UnidadEconomicaPAController;
 use App\Http\Controllers\DatosGeneralesPAController;
 use App\Http\Controllers\PermisoPescaController;
 use App\Http\Controllers\ArtePescaController;
+use App\Http\Controllers\EspecieController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
 
@@ -44,3 +45,4 @@ Route::apiResource('unidadeconomica_pa', UnidadEconomicaPAController::class);
 Route::apiResource('datosgenerales_pa', DatosGeneralesPAController::class);
 Route::apiResource('permisos_pesca', PermisoPescaController::class);
 Route::apiResource('artes_pesca', ArtePescaController::class);
+Route::apiResource('especies', EspecieController::class);
