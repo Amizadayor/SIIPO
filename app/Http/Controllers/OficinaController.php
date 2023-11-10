@@ -51,6 +51,8 @@ class OficinaController extends Controller
 
             $existeOficina = Oficina::where('NombreOficina', $request->NombreOficina)
                 ->where('Ubicacion', $request->Ubicacion)
+                ->where('Telefono', $request->Telefono)
+                ->where('Email', $request->Email)
                 ->first();
             if ($existeOficina) {
                 return ApiResponse::error('La oficina ya existe', 422);
@@ -104,6 +106,8 @@ class OficinaController extends Controller
 
             $existeOficina = Oficina::where('NombreOficina', $request->NombreOficina)
                 ->where('Ubicacion', $request->Ubicacion)
+                ->where('Telefono', $request->Telefono)
+                ->where('Email', $request->Email)
                 ->first();
             if ($existeOficina) {
                 return ApiResponse::error('La oficina ya existe', 422);
