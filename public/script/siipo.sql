@@ -163,7 +163,7 @@ CREATE TABLE detalles_pa ( -- Tabla para los detalles de los pescadores o acuacu
 CREATE TABLE sociodetalles_pa ( -- Tabla para los socios de los pescadores o acuacultores morales
     id INT AUTO_INCREMENT PRIMARY KEY NOT NULL, -- Identificador del socio
     CURP VARCHAR(18) NOT NULL, -- CURP del socio
-    TipoPA BOOLEAN NOT NULL, -- Tipo de socio, Verdadero Pescador y Falso Acuacultor
+    TipoPA BOOLEAN DEFAULT TRUE NOT NULL, -- Tipo de socio, Verdadero Pescador y Falso Acuacultor
     DocActaNacimiento VARCHAR(255) NOT NULL, -- Documento de acta de nacimiento del socio
     DocActaConstitutiva VARCHAR(255) NOT NULL, -- Documento de acta constitutiva del socio
     DocActaAsamblea VARCHAR(255) NOT NULL, -- Documento de acta de asamblea del socio
