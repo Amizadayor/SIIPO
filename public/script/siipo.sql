@@ -77,46 +77,46 @@ CREATE TABLE localidades ( -- Tabla para las localidades
     FOREIGN KEY (Munid) REFERENCES municipios(id) -- Llave foránea del municipio con el identificador del municipio-Munid
 );
 
-CREATE TABLE oficinas (
-    id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-    NombreOficina VARCHAR(50) NOT NULL,
-    Ubicacion VARCHAR(100) NOT NULL,
-    Telefono VARCHAR(10) NOT NULL,
-    Email VARCHAR(40) NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+CREATE TABLE oficinas ( -- Tabla para las oficinas
+    id INT AUTO_INCREMENT PRIMARY KEY NOT NULL, -- Identificador de la oficina
+    NombreOficina VARCHAR(50) NOT NULL, -- Nombre de la oficina
+    Ubicacion VARCHAR(100) NOT NULL, -- Ubicación de la oficina
+    Telefono VARCHAR(10) NOT NULL, -- Teléfono de la oficina
+    Email VARCHAR(40) NOT NULL, -- Email de la oficina
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Fecha de creación
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP -- Fecha de actualización
 );
 
 
 
-CREATE TABLE unidadeconomica_pa (
-    id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-    Ofcid INT NOT NULL,
-    FechaRegistro DATE NOT NULL,
-    RNPA VARCHAR(50),
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (Ofcid) REFERENCES oficinas(id)
+CREATE TABLE unidadeconomica_pa ( -- Tabla para las unidades económicas para los pescadores o acuacultores físicas y morales
+    id INT AUTO_INCREMENT PRIMARY KEY NOT NULL, -- Identificador de la unidad económica
+    Ofcid INT NOT NULL, -- Identificador de la oficina
+    FechaRegistro DATE NOT NULL, -- Fecha de registro de la unidad económica
+    RNPA VARCHAR(50), -- RNPA del pescador o acuacultor
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Fecha de creación
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, -- Fecha de actualización
+    FOREIGN KEY (Ofcid) REFERENCES oficinas(id) -- Llave foránea de la oficina con el identificador de la oficina-Ofcid
 );
 
-CREATE TABLE datosgenerales_pa (
-    id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-    TipoPersona BOOLEAN NOT NULL,
-    CURP VARCHAR(18) UNIQUE NOT NULL,
-    RFCFisica VARCHAR(13),
-    RFCMoral VARCHAR(12),
-    RazonSocial VARCHAR(50) NOT NULL,
-    Nombres VARCHAR(50) NOT NULL,
-    ApPaterno VARCHAR(30) NOT NULL,
-    ApMaterno VARCHAR(30) NOT NULL,
-    FechaNacimiento DATE NOT NULL,
-    Sexo ENUM ('M', 'F') NOT NULL,
-    GrupoSanguineo VARCHAR(4),
-    Email VARCHAR(40),
-    UEPAid INT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (UEPAid) REFERENCES unidadeconomica_pa(id)
+CREATE TABLE datosgenerales_pa ( -- Tabla para los datos generales de los pescadores o acuacultores físicas y morales
+    id INT AUTO_INCREMENT PRIMARY KEY NOT NULL, -- Identificador de los datos generales
+    TipoPersona BOOLEAN NOT NULL, -- Tipo persona Verdadero para física y Falso para moral
+    CURP VARCHAR(18) UNIQUE NOT NULL, -- CURP del pescador o acuacultor
+    RFCFisica VARCHAR(13), -- CURP del pescador o acuacultor físico
+    RFCMoral VARCHAR(12), -- CURP del pescador o acuacultor moral
+    RazonSocial VARCHAR(50) NOT NULL, -- Razon social del pescador o acuacultor moral
+    Nombres VARCHAR(50) NOT NULL, -- Nombres del pescador o acuacultor físico
+    ApPaterno VARCHAR(30) NOT NULL, -- Apellido paterno del pescador o acuacultor físico
+    ApMaterno VARCHAR(30) NOT NULL, -- Apellido materno del pescador o acuacultor físico
+    FechaNacimiento DATE NOT NULL, -- Fecha de nacimiento del pescador o acuacultor físico
+    Sexo ENUM ('M', 'F') NOT NULL, -- Sexo del pescador o acuacultor físico
+    GrupoSanguineo VARCHAR(4), -- Grupo sanguíneo del pescador o acuacultor físico
+    Email VARCHAR(40), -- Email del pescador o acuacultor físico
+    UEPAid INT NOT NULL, -- Id del pescador o acuacultor
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Fecha de creación
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, -- Fecha de actualización
+    FOREIGN KEY (UEPAid) REFERENCES unidadeconomica_pa(id) -- Llave foránea de la unidad económica con el identificador de la unidad económica-UEPAid
 );
 
 CREATE TABLE domicilio_pa (
