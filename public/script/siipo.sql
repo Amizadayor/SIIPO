@@ -160,22 +160,22 @@ CREATE TABLE detalles_pa ( -- Tabla para los detalles de los pescadores o acuacu
     FOREIGN KEY (DGPAid) REFERENCES datosgenerales_pa(id) -- Llave foránea de los datos generales pescador o acuacultor -DGPAid
 );
 
-CREATE TABLE sociodetalles_pa (
-    id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-    CURP VARCHAR(18) NOT NULL,
-    TipoPA BOOLEAN NOT NULL,
-    DocActaNacimiento VARCHAR(255) NOT NULL,
-    DocActaConstitutiva VARCHAR(255) NOT NULL,
-    DocActaAsamblea VARCHAR(255) NOT NULL,
-    DocComprobanteDomicilio VARCHAR(255) NOT NULL,
-    DocCURP VARCHAR(255) NOT NULL,
-    DocIdentificacionOfc VARCHAR(255) NOT NULL,
-    DocRFC VARCHAR(255) NOT NULL,
-    DocRepresentanteLegal VARCHAR(255) NOT NULL,
-    DetallePAid INT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (DetallePAid) REFERENCES detalles_pa(id)
+CREATE TABLE sociodetalles_pa ( -- Tabla para los socios de los pescadores o acuacultores morales
+    id INT AUTO_INCREMENT PRIMARY KEY NOT NULL, -- Identificador del socio
+    CURP VARCHAR(18) NOT NULL, -- CURP del socio
+    TipoPA BOOLEAN NOT NULL, -- Tipo de socio, Verdadero Pescador y Falso Acuacultor
+    DocActaNacimiento VARCHAR(255) NOT NULL, -- Documento de acta de nacimiento del socio
+    DocActaConstitutiva VARCHAR(255) NOT NULL, -- Documento de acta constitutiva del socio
+    DocActaAsamblea VARCHAR(255) NOT NULL, -- Documento de acta de asamblea del socio
+    DocComprobanteDomicilio VARCHAR(255) NOT NULL, -- Documento de compronante de domicilio del socio
+    DocCURP VARCHAR(255) NOT NULL, -- Documento de CURP del socio
+    DocIdentificacionOfc VARCHAR(255) NOT NULL, -- Documento de identificación oficial del socio
+    DocRFC VARCHAR(255) NOT NULL, -- Documento del RFC del socio
+    DocRepresentanteLegal VARCHAR(255) NOT NULL, -- Documento del representante legal del socio
+    DetallePAid INT NOT NULL, -- Identificador de los detalles del pescador o acuacultor
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Fecha de creación
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, -- Fecha de actualización
+    FOREIGN KEY (DetallePAid) REFERENCES detalles_pa(id) -- Llave foránea de los detalles del pescador o acuacultor -DetallePAid
 );
 
 CREATE TABLE artes_pesca (
