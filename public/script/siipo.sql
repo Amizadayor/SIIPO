@@ -8,7 +8,6 @@ CREATE TABLE roles ( -- Tabla de Roles para el Usuario
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Fecha de creación
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP -- Fecha de actualización
 );
-CREATE INDEX idx_NombreRol ON roles(NombreRol); -- Indice para el nombre del rol
 
 CREATE TABLE users ( -- Tabla de Usuarios
     id INT AUTO_INCREMENT PRIMARY KEY NOT NULL, -- Identificador del usuario
@@ -21,9 +20,6 @@ CREATE TABLE users ( -- Tabla de Usuarios
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, -- Fecha de actualización
     FOREIGN KEY (Rolid) REFERENCES roles(id) -- Llave foránea del rol del usuario con el identificador del rol-Rolid
 );
-CREATE INDEX idx_Curp ON users(CURP); -- Indice para la curp del usuario
-CREATE INDEX idx_Email ON users(Email); -- Indice para la curp del usuario
-CREATE INDEX idx_Rolid ON users(Rolid); -- Indice para el rol del usuario
 
 CREATE TABLE permisos ( -- Tabla para los permisos
     id INT AUTO_INCREMENT PRIMARY KEY NOT NULL, -- Identificador del permiso
@@ -36,7 +32,7 @@ CREATE TABLE asignacion_permisos ( -- Tabla para la asignación de permisos a lo
     id INT AUTO_INCREMENT PRIMARY KEY NOT NULL, -- Identificador del permiso asignado
     Rolid INT NOT NULL, -- Identificador del rol
     Perid INT NOT NULL, -- Identificador del permiso
-    Permitido BOOLEAN NOT NULL, -- Indica si el permiso está permitido o no
+    Permitido BOOLEAN DEFAULT FALSE NOT NULL, -- Indica si el permiso está permitido o no
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Fecha de creación
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, -- Fecha de actualización
     FOREIGN KEY (Rolid) REFERENCES roles(id), -- Llave foránea del rol con el identificador del rol-Rolid
@@ -101,7 +97,7 @@ CREATE TABLE unidadeconomica_pa ( -- Tabla para las unidades económicas para lo
 
 CREATE TABLE datosgenerales_pa ( -- Tabla para los datos generales de los pescadores o acuacultores físicas y morales
     id INT AUTO_INCREMENT PRIMARY KEY NOT NULL, -- Identificador de los datos generales
-    TipoPersona BOOLEAN NOT NULL, -- Tipo persona Verdadero para física y Falso para moral
+    TipoPersona BOOLEAN DEFAULT TRUE NOT NULL, -- Tipo persona Verdadero para física y Falso para moral
     CURP VARCHAR(18) UNIQUE NOT NULL, -- CURP del pescador o acuacultor
     RFCFisica VARCHAR(13), -- CURP del pescador o acuacultor físico
     RFCMoral VARCHAR(12), -- CURP del pescador o acuacultor moral
@@ -116,52 +112,52 @@ CREATE TABLE datosgenerales_pa ( -- Tabla para los datos generales de los pescad
     UEPAid INT NOT NULL, -- Id del pescador o acuacultor
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Fecha de creación
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, -- Fecha de actualización
-    FOREIGN KEY (UEPAid) REFERENCES unidadeconomica_pa(id) -- Llave foránea de la unidad económica con el identificador de la unidad económica-UEPAid
+    FOREIGN KEY (UEPAid) REFERENCES unidadeconomica_pa(id) -- Llave foránea de la unidad económica-UEPAid
 );
 
-CREATE TABLE domicilio_pa (
-    id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-    Calle VARCHAR(100) NOT NULL,
-    NmExterior VARCHAR(6) NOT NULL,
-    NmInterior VARCHAR(6) NOT NULL,
-    CodigoPostal VARCHAR(10),
-    LocID INT NOT NULL,
-    Colonia VARCHAR(100) NOT NULL,
-    DGPAID INT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (Locid) REFERENCES localidades(id),
-    FOREIGN KEY (DGPAid) REFERENCES datosgenerales_pa(id)
+CREATE TABLE domicilio_pa ( -- Tabla para los domicilios de los pescadores o acuacultores físicas y morales
+    id INT AUTO_INCREMENT PRIMARY KEY NOT NULL, -- Identificador del domicilio
+    Calle VARCHAR(100) NOT NULL, -- Calle del domicilio
+    NmExterior VARCHAR(6) NOT NULL, -- Número exterior del domicilio
+    NmInterior VARCHAR(6) NOT NULL, -- Número interior del domicilio
+    CodigoPostal VARCHAR(10), -- Código postal del domicilio
+    LocID INT NOT NULL, -- Identificador de la localidad
+    Colonia VARCHAR(100) NOT NULL, -- Colonia del domicilio
+    DGPAID INT NOT NULL, -- Identificador de los datos generales del pescador o acuacultor
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Fecha de creación
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, -- Fecha de actualización
+    FOREIGN KEY (Locid) REFERENCES localidades(id), -- Llave foránea de la localidad con el identificador de la localidad-Locid
+    FOREIGN KEY (DGPAid) REFERENCES datosgenerales_pa(id) -- Llave foránea de los datos generales pescador o acuacultor -DGPAid
 );
 
-CREATE TABLE telefonos_pa (
-    id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-    Numero VARCHAR(10) NOT NULL,
-    NumeroPrincipal BOOLEAN NOT NULL,
-    Tipo VARCHAR(20) NOT NULL,
-    DGPAid INT NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (DGPAid) REFERENCES datosgenerales_pa(id)
+CREATE TABLE telefonos_pa ( -- Tabla para los teléfonos de los pescadores o acuacultores físicas y morales
+    id INT AUTO_INCREMENT PRIMARY KEY NOT NULL, -- Identificador del teléfono
+    Numero VARCHAR(10) NOT NULL, -- Numero del teléfono
+    NumeroPrincipal BOOLEAN DEFAULT FALSE NOT NULL, -- Numero principal del teléfono  Verdadero para principal y Falso para secundario
+    Tipo VARCHAR(20) NOT NULL, -- Tipo del teléfono para celular, fijo, etc.
+    DGPAid INT NOT NULL, -- Identificador de los datos generales del pescador o acuacultor
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Fecha de creación
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, -- Fecha de actualización
+    FOREIGN KEY (DGPAid) REFERENCES datosgenerales_pa(id) -- Llave foránea de los datos generales pescador o acuacultor -DGPAid
 );
 
-CREATE TABLE detalles_pa (
-    id INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-    DGPAid INT NOT NULL,
-    IniOperaciones DATE NOT NULL,
-    ActvPesqueraAcuacultura BOOLEAN NOT NULL,
-    ActvPesqueraCaptura BOOLEAN NOT NULL,
-    CantidadPescadores INT,
-    DocActaNacimiento VARCHAR(255) NOT NULL,
-    DocComprobanteDomicilio VARCHAR(255) NOT NULL,
-    DocCURP VARCHAR(255) NOT NULL,
-    DocIdentificacionOfc VARCHAR(255) NOT NULL,
-    DocRFC VARCHAR(255) NOT NULL,
-    ActivoEmbMayor BOOLEAN NOT NULL,
-    ActivoEmbMenor BOOLEAN NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    FOREIGN KEY (DGPAid) REFERENCES datosgenerales_pa(id)
+CREATE TABLE detalles_pa ( -- Tabla para los detalles de los pescadores o acuacultores físicas y morales
+    id INT AUTO_INCREMENT PRIMARY KEY NOT NULL, -- Identificador de los detalles del pescador o acuacultor
+    DGPAid INT NOT NULL, -- Identificador de los datos generales del pescador o acuacultor
+    IniOperaciones DATE NOT NULL, -- Fecha de inicio de operaciones
+    ActvPesqueraAcuacultura BOOLEAN DEFAULT FALSE NOT NULL, -- Actividad pesquera Verdadero para Acuacultura
+    ActvPesqueraCaptura BOOLEAN DEFAULT FALSE NOT NULL, -- Actividad pesquera Verdadero para Captura
+    CantidadPescadores INT, -- Cantidad de pescadores o acuacultores
+    DocActaNacimiento VARCHAR(255) NOT NULL, -- Documento de acta de nacimiento del pescador o acuacultor
+    DocComprobanteDomicilio VARCHAR(255) NOT NULL, -- Documento de comprobante de domicilio del pescador o acuacultor
+    DocCURP VARCHAR(255) NOT NULL, -- Documento de CURP del pescador o acuacultor
+    DocIdentificacionOfc VARCHAR(255) NOT NULL, -- Documento de identificación oficial del pescador o acuacultor
+    DocRFC VARCHAR(255) NOT NULL, -- Documento de RFC del pescador o acuacultor
+    ActivoEmbMayor BOOLEAN DEFAULT FALSE NOT NULL, -- Activos, Verdadero para embarcación mayor
+    ActivoEmbMenor BOOLEAN DEFAULT FALSE NOT NULL, -- Activos, Verdadero para embarcación menor
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Fecha de creación
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, -- Fecha de actualización
+    FOREIGN KEY (DGPAid) REFERENCES datosgenerales_pa(id) -- Llave foránea de los datos generales pescador o acuacultor -DGPAid
 );
 
 CREATE TABLE sociodetalles_pa (
@@ -863,6 +859,8 @@ CREATE TABLE solicitudes (
     FOREIGN KEY (TPSolicitudid) REFERENCES tipos_solicitud(id)
 );
 
+---- Vistas ----
+
 CREATE VIEW vista_solicitudes AS
 SELECT
     solicitudes.FolioSolicitud AS "Folio de la solicitud",
@@ -874,3 +872,12 @@ FROM solicitudes
 INNER JOIN tipos_proceso ON solicitudes.TPProcesoid = tipos_proceso.id
 INNER JOIN tipos_modalidad ON solicitudes.TPModalidadid = tipos_modalidad.id
 INNER JOIN tipos_solicitud ON solicitudes.TPSolicitudid = tipos_solicitud.id;
+
+
+---- Indices ----
+
+CREATE INDEX idx_NombreRol ON roles(NombreRol); -- Indice para el nombre del rol
+
+CREATE INDEX idx_Curp ON users(CURP); -- Indice para la curp del usuario
+CREATE INDEX idx_Email ON users(Email); -- Indice para la curp del usuario
+CREATE INDEX idx_Rolid ON users(Rolid); -- Indice para el rol del usuario
